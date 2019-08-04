@@ -57,10 +57,4 @@ public class WordRegister24Hours {
 	public HTreeMap<String, long[]> getWordRegister24HoursMap() {
 		return wordRegister24HoursMap;
 	}
-
-	/*
-	 * public void setWordRegister24HoursMap(HTreeMap<String, long[]>
-	 * wordRegister24HoursMap) { this.wordRegister24HoursMap =
-	 * wordRegister24HoursMap; }
-	 */
 }

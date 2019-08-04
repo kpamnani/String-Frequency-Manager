@@ -11,7 +11,6 @@ import lombok.Data;
  * 
  * @author Kamna
  * @version 1.0
- * @since 2017-07-18
  * @see com.string.frequencyManager.config.AppConfig.java
  */
 

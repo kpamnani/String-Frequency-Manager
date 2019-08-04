@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
 import com.string.frequencyManager.config.AppConfig;
 import com.string.frequencyManager.repository.WordRegister24Hours;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Kamna
@@ -33,12 +34,11 @@ import com.string.frequencyManager.repository.WordRegister24Hours;
  *
  */
 
+@Slf4j
 @Service
 @RefreshScope
 @Configuration
 public class PeriodicLogFrequencyManager {
-	
-	private static final Logger logger = Logger.getLogger("PeriodicLogFrequencyManager");
 
 	private AppConfig config;
 	private WatchService watcher;
@@ -73,13 +73,12 @@ public class PeriodicLogFrequencyManager {
 					long startTime = System.currentTimeMillis();
 
 					for (WatchEvent<?> event : key.pollEvents()) {
-						logger.log(Level.INFO,
-								String.format("Event kind: %s , file affected: %s", event.kind(), event.context()));
+						log.info(String.format("Event kind: %s , file affected: %s", event.kind(), event.context()));
 						onlyFileName = event.context().toString();
 						processEachFile(arrayLength, onlyFileName, fileExtension);
 					}
 					key.reset();
-					logger.log(Level.INFO, String.format("Completed processing, took %d milliseconds.",
+					log.info(String.format("Completed processing, took %d milliseconds.",
 							(System.currentTimeMillis() - startTime)));
 				}
 //			}
@@ -87,7 +86,7 @@ public class PeriodicLogFrequencyManager {
 			int retryCount = 0;
 			int retryLimit = 3;
 			boolean isOK = false;
-			logger.log(Level.SEVERE, e.getMessage(), e);
+			log.info(e.getMessage(), e);
 			while (retryCount < retryLimit) {
 				try {
 
@@ -98,17 +97,17 @@ public class PeriodicLogFrequencyManager {
 					isOK = true;
 					break;
 				} catch (IOException e1) {
-					logger.log(Level.SEVERE, String.format("Retrying... %s", e.getMessage()), e);
+					log.info(String.format("Retrying... %s", e.getMessage()), e);
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e2) {
-						logger.log(Level.SEVERE, String.format("Retrying... %s", e.getMessage()), e);
+						log.info(String.format("Retrying... %s", e.getMessage()), e);
 					}
 				}
 				retryCount++;
 			}
 			if (!isOK) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
+				log.info(e.getMessage(), e);
 			}
 		}
 
@@ -147,13 +146,13 @@ public class PeriodicLogFrequencyManager {
 									occurrences[arrayLength] = epochTimeStampMillis;
 
 									wordRegister24Hours.getWordRegister24HoursMap().put(eachWord, occurrences);
-									logger.log(Level.INFO,String.format("Word %s, occurrences %d",eachWord,occurrences[arrayLength]));
+									log.info(String.format("Word %s, occurrences %d",eachWord,occurrences[arrayLength]));
 
 								}
 							});
 						}
 					} catch (NumberFormatException nfe) {
-						logger.log(Level.SEVERE, String.format("'%s' is not a numeric value", fieldValues[0]));
+						log.info(String.format("'%s' is not a numeric value", fieldValues[0]));
 					}
 				});
 

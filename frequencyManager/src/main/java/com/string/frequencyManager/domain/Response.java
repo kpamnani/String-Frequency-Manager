@@ -16,6 +16,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Response {
 
-        @JsonProperty("Response")
+        @JsonProperty("response")
 	private String response;
 }
