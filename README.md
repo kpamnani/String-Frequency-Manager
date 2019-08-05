@@ -3,11 +3,11 @@ String frequency manager - A SpringBoot application(SaaS)
 
 
 # Implementation
-Language - Spring Boot 2.1.6.RELEASE with Java 1.8
-DB - MapDB
-Unit Tests - Mockito
-Logging - slf4j
-Builder Tool - Lombok
+1. Language - Spring Boot 2.1.6.RELEASE with Java 1.8
+2. DB - MapDB
+3. Unit Tests - Mockito
+4. Logging - slf4j
+5. Builder Tool - Lombok
 
 # Requirements
 Construct the SaaS with the following requirements and constraints:
